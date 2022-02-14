@@ -90,6 +90,6 @@ func WebsiteHandler(w http.ResponseWriter, r *http.Request) {
             fmt.Fprintf(w,"\npassword: ")
             fmt.Fprintf(w,stringByte2)
             addUser(USERS{
-                name: strings.Join(r.Form["username"]," "),
-                pass: strings.Join(r.Form["password"]," ")})
+                name: stringByte1,
+                pass: stringByte2})
          }
