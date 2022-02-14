@@ -43,9 +43,8 @@ func main() {
     fmt.Printf("users found: %v\n", UserS)
     //server handling
     r :=mux.NewRouter()
-    fmt.Println("helloworld")
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/",http.FileServer(http.Dir("./static"))))
-	r.HandleFunc("/",HomeHandler)
+    r.PathPrefix("/static/").Handler(http.StripPrefix("/static/",http.FileServer(http.Dir("./static"))))
+    r.HandleFunc("/",HomeHandler)
     r.HandleFunc("/website",WebsiteHandler)
     log.Fatal(http.ListenAndServe(":8080",r))
 }
