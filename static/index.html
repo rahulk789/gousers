@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html src="back.jpg"><head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>GoUsers</title>
+		<link rel="stylesheet" type="text/css"  href="/static/style.css">
+	</head>
+<style>
+body{
+	background-image:url(/static/back.jpg);
+	background-size: cover;
+	background-attachment: fixed;
+}
+.text{
+    text-align : center;
+}
+</style>
+<body>
+	<div class="container">
+	<img class="logo" src="/static/wall.jpg" alt="">
+	<div class="send">
+        <div class="text">
+		Enter User name and password :
+        </div>
+        <form action="/website" id="send-container" method="post">
+			<input type="username" name="username" id="messageInp">
+			<input type="password" name="password" id="messageInp">
+			<button class="btn" type="submit" value="Login">Login</button>
+		</form>
+    </div>
+    </div>
+</body>
+</html>
