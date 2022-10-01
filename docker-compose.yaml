@@ -16,9 +16,9 @@ services:
     volumes:
       - /var/lib/mysql
     environment:
-      - MYSQL_DATABASE:
-      - MYSQL_USER: DB_USER
-      - MYSQL_PASSWORD: DB_PASSWORD
+      - MYSQL_DATABASE: users
+      - MYSQL_USER: DBUSER
+      - MYSQL_PASSWORD: DBPASSWORD
     ports: 
       - '3306:3306'
     expose: 
