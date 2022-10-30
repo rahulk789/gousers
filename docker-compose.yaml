@@ -1,12 +1,16 @@
 services:
   website:
     container_name: website
-    image: golang:1.16 
+    image: golang:v1.16-alpine 
     ports:
-      - 8080
+      - '8080'
+    expose:
+      - '8080'
     environment:
+      DBUSER: DBUSER
+      DBPASS: DBPASS
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile
 
   database:
@@ -16,11 +20,10 @@ services:
     volumes:
       - /var/lib/mysql
     environment:
-      - MYSQL_DATABASE: users
-      - MYSQL_USER: DBUSER
-      - MYSQL_PASSWORD: DBPASSWORD
-    ports: 
-      - '3306:3306'
+       MYSQL_DATABASE: myusers
+       MYSQL_USER: DBUSER
+       MYSQL_PASSWORD: DBPASS
+       MYSQL_ROOT_PASSWORD: DBPASS
     expose: 
       - '3306'
 

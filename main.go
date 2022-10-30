@@ -9,7 +9,7 @@ import (
     "os"
     "database/sql" 
 )
-type USERS struct {
+type userstruct struct {
     name string
     pass string
 }
@@ -21,7 +21,7 @@ func main() {
         Passwd: os.Getenv("DBPASS"),
         Net:    "tcp",
         Addr:   "127.0.0.1:3306",
-        DBName: "users",
+        DBName: "myusers",
         AllowNativePasswords : true,
     }
     // Get a database handle.
@@ -36,11 +36,11 @@ func main() {
         log.Fatal(pingErr)
     }
     fmt.Println("Connected!")
-    UserS, err := connectTheUser("new user")
+    connectionCheck, err := connectTheUser("new user")
     if err != nil {
         log.Fatal(err)
     }
-    fmt.Printf("users found: %v\n", UserS)
+    fmt.Printf("users found: %v\n", connectionCheck)
     //server handling
     r :=mux.NewRouter()
     r.PathPrefix("/static/").Handler(http.StripPrefix("/static/",http.FileServer(http.Dir("./static"))))
@@ -49,8 +49,8 @@ func main() {
     log.Fatal(http.ListenAndServe(":8080",r))
 }
 //DB functions
-func connectTheUser(x string) ([]USERS, error) {
-    var Users []USERS
+func connectTheUser(x string) ([]userstruct, error) {
+    var userlist []userstruct
     rows, err := db.Query("SELECT * FROM USERS")
     if err != nil {
         return nil, fmt.Errorf("connectTheUser %q: %v", x, err)
@@ -58,19 +58,19 @@ func connectTheUser(x string) ([]USERS, error) {
     defer rows.Close()
     // Loop through rows, using Scan to assign column data to struct fields.
     for rows.Next() {
-        var usr USERS
+        var usr userstruct
         if err := rows.Scan(&usr.name, &usr.pass,); err != nil {
             return nil, fmt.Errorf("connectTheUser %q: %v", x, err)
         }
-        Users = append(Users, usr)
+        userlist = append(userlist, usr)
     }
     if err := rows.Err(); err != nil {
         return nil, fmt.Errorf("connectTheUser %q: %v", x, err)
     }
-    return Users, nil
+    return userlist, nil
 }
 
-func addUser(usr USERS) ( error) {
+func addUser(usr userstruct) ( error) {
     _,err :=  db.Exec("INSERT INTO USERS (name, pass) VALUES (?, ?)", usr.name, usr.pass)
     if err != nil {
         return fmt.Errorf("addUSERS: %v", err)
@@ -89,7 +89,7 @@ func WebsiteHandler(w http.ResponseWriter, r *http.Request) {
             fmt.Fprintf(w,stringByte1)
             fmt.Fprintf(w,"\npassword: ")
             fmt.Fprintf(w,stringByte2)
-            addUser(USERS{
+            addUser(userstruct{
                 name: stringByte1,
                 pass: stringByte2})
          }
