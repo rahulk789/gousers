@@ -6,7 +6,7 @@ import (
     "net/http"
     "strings"
     "github.com/go-sql-driver/mysql"
-    "os"
+//    "os"
     "database/sql" 
 )
 type USERS struct {
@@ -17,8 +17,8 @@ var db *sql.DB
 func main() {
     // Capture connection properties.
     cfg := mysql.Config{
-        User:   os.Getenv("DBUSER"),
-        Passwd: os.Getenv("DBPASS"),
+        User:   "root",//os.Getenv("DBUSER"),
+        Passwd: "1234",//os.Getenv("DBPASS"),
         Net:    "tcp",
         Addr:   "127.0.0.1:3306",
         DBName: "users",
